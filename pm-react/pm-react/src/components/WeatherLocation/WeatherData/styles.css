@@ -1,0 +1,7 @@
+.weatherDataCont{
+  margin-left: 35%;
+  background-color:rgba(158, 158, 158, 0.72);
+  width: 30%;
+  border: 6px solid pink;
+  padding: 1%;
+}
