@@ -24,16 +24,28 @@ class ForecastExtended extends Component {
 }
 
 componentDidMount(){
-  const url_forecast = `${url}?q=${this.props.city}&appid=${api_key}&units=metric`;
-
-  fetch(url_forecast).then(data=> (data.json())
-).then(weather_data => {
-    console.log(weather_data)
-    const forecastData= transformForecast(weather_data);
-    this.setState( {forecastData} )
+  this.updateCity(this.props.city);
   }
-)
 
+  componentWillReceiveProps(nextProps){//recibe una propiedad y ejecuta la proxima
+//si se ejecuta bogota y despues ejecuto stgo si son distntas que cargue de stgo
+    if(nextProps.city !== this.props.city){
+    //setSatet estamos pasando la api
+      this.setState( {forecastData:null});//lo limpio lo dejo en null
+      this.updateCity(nextProps.city);//ahora ocupo el llamado de la api
+    }
+  }
+
+  updateCity = city =>{
+    const url_forecast = `${url}?q=${city}&appid=${api_key}&units=metric`;
+
+    fetch(url_forecast).then(data=> (data.json())
+  ).then(weather_data => {
+      console.log(weather_data)
+      const forecastData= transformForecast(weather_data);
+      this.setState( {forecastData} )
+    }
+  )
 }
 
   renderForecastItemDays(forecastData){

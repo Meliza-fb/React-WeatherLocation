@@ -1,14 +1,29 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Grid, Row, Col} from 'react-flexbox-grid';
+//import {createStore} from 'redux';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
 import LocationList from './components/LocationList';
+import {setCity} from './actions';
+import {store} from './store';
 import ForecastExtended from './components/ForecastExtended';
 /*import './App.css';*/
 
 const cities= ['Santiago,scl', 'Buenos Aires,ar', 'Bogotá,col', 'Ciudad de México,mx','Madrid,es',
               'Rio de Janeiro,br','London,uk', 'Nantucket', 'Dusseldorf'];
+
+/*=====Primera Parte de Redux=====
+const store = createStore(()=>{});
+=================================*/
+//const store = createStore(()=>{}, window.__REDUX_DEVTOOLS_EXTENSION__&& window.__REDUX_DEVTOOLS_EXTENSION__());
+
+/*==Lo pase a index de actions==
+const setCity = value =>({
+  type:'setCity',
+  value,
+});*/
 
 class App extends Component {
   constructor(){
@@ -21,6 +36,10 @@ class App extends Component {
   hadlerSelectionLocation = city => {
     this.setState({city});
     console.log(`hadlerSelectionLocationClick ${city}`);
+
+    /*const action ={type:'setState', value:city}*/
+    /*store.dispatch(setCity(city));//value es el parámetro*/
+    this.props.setCity(city);
   }
 
   render() {
@@ -60,4 +79,13 @@ class App extends Component {
   }
 }
 
-export default App;
+//const mapDispatchToPropsActions=()=>{};
+//const componentConnected = connect(null, mapDispatchToPropsActions)(App)
+
+const mapDispatchToPropsActions= dispatch=>({
+  setCity: value => dispatch(setCity(value))
+});
+
+const AppConnected = connect(null, mapDispatchToPropsActions)(App)
+
+export default AppConnected;
