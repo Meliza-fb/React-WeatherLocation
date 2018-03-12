@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Grid, Row, Col} from 'react-flexbox-grid';
 //import {createStore} from 'redux';
 import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
-import LocationList from './components/LocationList';
-import {setCity} from './actions';
-import {store} from './store';
-import ForecastExtended from './components/ForecastExtended';
-/*import './App.css';*/
+import LocationListContainer from './containers/LocationListContainer';
+//import {setCity} from './actions';
+//import {store} from './store';
+import ForecastExtendedContainer from './containers/ForecastExtendedContainer';
+//import from './App.css';
 
+/*=========================
+RECIBE NUESTROS CONTAINERS
+=========================*/
 const cities= ['Santiago,scl', 'Buenos Aires,ar', 'Bogotá,col', 'Ciudad de México,mx','Madrid,es',
               'Rio de Janeiro,br','London,uk', 'Nantucket', 'Dusseldorf'];
 
@@ -25,25 +29,25 @@ const setCity = value =>({
   value,
 });*/
 
-class App extends Component {
-  constructor(){
+  class App extends Component {
+/*constructor(){
     super();
     this.state={
       city:null
-    }
-  }
+    }*/
 
-  hadlerSelectionLocation = city => {
+
+  /*hadlerSelectionLocation = city => {//tecleo cada locacion
     this.setState({city});
     console.log(`hadlerSelectionLocationClick ${city}`);
 
     /*const action ={type:'setState', value:city}*/
-    /*store.dispatch(setCity(city));//value es el parámetro*/
+    /*store.dispatch(setCity(city));//value es el parámetro
     this.props.setCity(city);
-  }
+  }*/
 
   render() {
-    const {city}=this.state;
+    //const {city}=this.state;
     return (
        <MuiThemeProvider>
           <Grid>
@@ -55,13 +59,17 @@ class App extends Component {
 
               <Row>
                 <Col xs={12} md={6}>
-                  <LocationList cities={cities} onSelectedLocation={this.hadlerSelectionLocation}/>
+                  <LocationListContainer
+                   cities={cities}>
+                  </LocationListContainer>
                 </Col>
 
                 <Col xs={12} md={6}>
                   <Paper zDepth={4}>
                     <div className="detail">
-                    {city=== null ? <h3>No se seleccionó ninguna cuidad</h3> : <ForecastExtended city={city}></ForecastExtended>}
+                    <ForecastExtendedContainer>
+                    </ForecastExtendedContainer>
+
                     </div>
                     </Paper>
                 </Col>
@@ -69,23 +77,22 @@ class App extends Component {
           </Grid>
        </MuiThemeProvider>
 
-    /*  <MuiThemeProvider>
-        <div className= "App">
-          <LocationList cities={cities}
-          onSelectedLocation={this.hadlerSelectionLocation}/>
-        </div>
-      </MuiThemeProvider>*/
     );
   }
 }
 
+//{city=== null ? <h3>No se seleccionó ninguna cuidad</h3> : <ForecastExtended city={city}></ForecastExtended>}
+  /*  <MuiThemeProvider>
+      <div className= "App">
+        <LocationList cities={cities}
+        onSelectedLocation={this.hadlerSelectionLocation}/>
+      </div>
+    </MuiThemeProvider>*/
 //const mapDispatchToPropsActions=()=>{};
 //const componentConnected = connect(null, mapDispatchToPropsActions)(App)
+/*
+App.PropTypes = {
+  setCity: PropTypes.func.isRequired,
+}*/
 
-const mapDispatchToPropsActions= dispatch=>({
-  setCity: value => dispatch(setCity(value))
-});
-
-const AppConnected = connect(null, mapDispatchToPropsActions)(App)
-
-export default AppConnected;
+export default App;
